@@ -44,6 +44,7 @@ public class Main {
         int findSalary = Integer.parseInt(reader.readLine());
         employeeBook.separationEmployeesBySalary(findSalary);
 
+
 //      Очень сложно.
         // Как избавить от проверок объектов массива EmployeeBook на null?
         System.out.println();
