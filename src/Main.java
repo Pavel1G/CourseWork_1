@@ -1,8 +1,6 @@
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public class Main {
     public static Employee[] employees = new Employee[10];
@@ -44,7 +42,7 @@ public class Main {
 
         System.out.println("Градация сотрудников относительно заданной зарплаты. Введите зарплату: ");
         int findSalary = Integer.parseInt(reader.readLine());
-        employeeBook.findEmployeeBySalary(findSalary);
+        employeeBook.separationEmployeesBySalary(findSalary);
 
 //      Очень сложно.
         // Как избавить от проверок объектов массива EmployeeBook на null?

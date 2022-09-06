@@ -16,10 +16,11 @@ public class EmployeeBook {
 
     // Очень сложно.
     public void deleteEmployeeByName(String lastName, String firstName, String secondName) {
-        int idForDelate = findEmployee(lastName, firstName, secondName);
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getId() == idForDelate) {
+            if ((employees[i].getLastName().equals(lastName)) && (employees[i].getFirstName().equals(firstName)) &&
+                    (employees[i].getSecondName().equals(secondName))) {
                 employees[i] = null;
+                break;
             }
         }
     }
@@ -29,40 +30,31 @@ public class EmployeeBook {
             if (employees[i] != null) {
                 if (employees[i].getId() == id) {
                     employees[i] = null;
+                    break;
                 }
             }
         }
     }
 
-    public int findEmployee(String lastName, String firstName, String secondName) {
+    public void changeSalary(String lastName, String firstName, String secondName, int newSalary) {
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null) {
                 if ((employees[i].getLastName().equals(lastName)) && (employees[i].getFirstName().equals(firstName)) &&
                         (employees[i].getSecondName().equals(secondName))) {
-                    return i + 1;
-                }
-            }
-        }
-        return -1;
-    }
-
-    public void changeSalary(String lastName, String firstName, String secondName, int newSalary) {
-        int id = findEmployee(lastName, firstName, secondName);
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                if (employees[i].getId() == id) {
                     employees[i].setSalary(newSalary);
+                    break;
                 }
             }
         }
     }
 
     public void changeDepartment(String lastName, String firstName, String secondName, int newDepartment) {
-        int id = findEmployee(lastName, firstName, secondName);
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null) {
-                if (employees[i].getId() == id) {
+                if ((employees[i].getLastName().equals(lastName)) && (employees[i].getFirstName().equals(firstName)) &&
+                        (employees[i].getSecondName().equals(secondName))) {
                     employees[i].setDepartment(newDepartment);
+                    break;
                 }
             }
         }
@@ -193,25 +185,24 @@ public class EmployeeBook {
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null) {
                 salaryPerMonth = salaryPerMonth + employees[i].getSalary();
-            } else if (employees[i] == null) {
-                return salaryPerMonth;
+                break;
             }
         }
         return salaryPerMonth;
     }
 
     public Employee findEmployeeMinSalaryByDepartment(Employee[] employees) {
-        int countMinSalary = 0;
+        int minSalaryIndex = 0;
         int minSalary = Integer.MAX_VALUE;
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null) {
                 if (employees[i].getSalary() < minSalary) {
                     minSalary = employees[i].getSalary();
-                    countMinSalary = i;
+                    minSalaryIndex = i;
                 }
             }
         }
-        return employees[countMinSalary];
+        return employees[minSalaryIndex];
     }
 
     public void printEmployeeMinSalaryByDepartment(Employee[] employees) {
@@ -264,17 +255,19 @@ public class EmployeeBook {
         }
     }
 
-    public void findEmployeeBySalary(int findSalary) {
-        Employee[] employeesWithHighSalary = new Employee[10];
-        int indexHighSalary = 0;
+    public void separationEmployeesBySalary(int findSalary) {
+        getEmployeesWithLowSalary(findSalary);
+        System.out.println();
+        getEmployeesWithHighSalary(findSalary);
+    }
+
+    public void getEmployeesWithLowSalary(int findSalary) {
         Employee[] employeesWithLowSalary = new Employee[10];
         int indexLowSalary = 0;
 
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getSalary() < findSalary) {
                 employeesWithLowSalary[indexLowSalary++] = employees[i];
-            } else if (employees[i].getSalary() >= findSalary) {
-                employeesWithHighSalary[indexHighSalary++] = employees[i];
             }
         }
 
@@ -284,8 +277,17 @@ public class EmployeeBook {
                 System.out.printf("%s %s %s с зарплатой %d. ID - %d\n", employeesWithLowSalary[i].getLastName(), employeesWithLowSalary[i].getFirstName(), employeesWithLowSalary[i].getSecondName(), employeesWithLowSalary[i].getSalary(), employeesWithLowSalary[i].getId());
             }
         }
+    }
 
-        System.out.println();
+    public void getEmployeesWithHighSalary(int findSalary) {
+        Employee[] employeesWithHighSalary = new Employee[10];
+        int indexHighSalary = 0;
+
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i].getSalary() >= findSalary) {
+                employeesWithHighSalary[indexHighSalary++] = employees[i];
+            }
+        }
 
         System.out.println("Список сотрудников с зарплатой больше " + findSalary + " рублей.");
         for (int i = 0; i < employeesWithHighSalary.length; i++) {
